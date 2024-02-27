@@ -33,6 +33,8 @@ define([
                 }];
             }
 
+            console.log(this.urlAuth);
+
             window.location.href = this.urlAuth;
 
             this._super();

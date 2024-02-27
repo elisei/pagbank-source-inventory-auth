@@ -123,7 +123,7 @@ class Oauth extends \Magento\Backend\App\Action
                 $params['code_verifier'],
                 $params['source_code']
             );
-            
+
             if ($oAuthResponse) {
                 $oAuthResponse = $this->json->unserialize($oAuthResponse);
                 if (isset($oAuthResponse['access_token'])) {

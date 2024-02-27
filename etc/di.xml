@@ -19,17 +19,34 @@
         </arguments>
     </type>
 
-    <type name="PagBank\PaymentMagento\Gateway\Config\Config">
-        <plugin name="pagbank_source_inventory_get_merchant_gateway_oauth"
-                type="O2TI\PagBankSourceInventoryAuth\Plugin\PagBank\ConfigBySourceInventory"
-                sortOrder="1" />
-        <plugin name="pagbank_source_inventory_get_merchant_gateway_refresh_oauth"
-                type="O2TI\PagBankSourceInventoryAuth\Plugin\PagBank\ConfigBySourceInventory"
-                sortOrder="2" />
-        <plugin name="pagbank_source_inventory_get_merchant_gateway_public_key"
-                type="O2TI\PagBankSourceInventoryAuth\Plugin\PagBank\ConfigBySourceInventory"
-                sortOrder="3" />
+    <!-- Console -->
+    <type name="Magento\Framework\Console\CommandList">
+        <arguments>
+            <argument name="commands" xsi:type="array">
+                <item name="set_oauth" xsi:type="object">O2TI\PagBankSourceInventoryAuth\Console\Command\Auth\Oauth</item>
+            </argument>
+        </arguments>
     </type>
+
+    <type name="YO2TI\PagBankSourceInventoryAuth\Model\Api">
+        <arguments>
+            <argument name="backendUrl" xsi:type="object">\Magento\Backend\Model\UrlInterface</argument>
+        </arguments>
+    </type>
+    
+    <!-- 
+        <type name="PagBank\PaymentMagento\Gateway\Config\Config">
+            <plugin name="pagbank_source_inventory_get_merchant_gateway_oauth"
+                    type="O2TI\PagBankSourceInventoryAuth\Plugin\PagBank\ConfigBySourceInventory"
+                    sortOrder="1" />
+            <plugin name="pagbank_source_inventory_get_merchant_gateway_refresh_oauth"
+                    type="O2TI\PagBankSourceInventoryAuth\Plugin\PagBank\ConfigBySourceInventory"
+                    sortOrder="2" />
+            <plugin name="pagbank_source_inventory_get_merchant_gateway_public_key"
+                    type="O2TI\PagBankSourceInventoryAuth\Plugin\PagBank\ConfigBySourceInventory"
+                    sortOrder="3" />
+        </type>
+    -->
 
     <type name="Magento\InventoryApi\Api\SourceRepositoryInterface">
         <plugin name="plugin_source_save" type="O2TI\PagBankSourceInventoryAuth\Plugin\InventorySource\AddExtensionAttributes" sortOrder="100"/>

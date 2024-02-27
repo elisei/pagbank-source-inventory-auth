@@ -22,6 +22,7 @@ use Magento\Store\Model\StoreManagerInterface;
 use PagBank\PaymentMagento\Gateway\Config\Config as ConfigBase;
 use Magento\InventoryApi\Api\SourceRepositoryInterface;
 use O2TI\PagBankSourceInventoryAuth\Helper\Data;
+use Magento\Backend\Model\UrlInterface;
 
 /**
  * Class Credential - Get access credential on PagBank.
@@ -69,6 +70,11 @@ class Credential
     protected $helperData;
 
     /**
+     * @var UrlInterface
+     */
+    protected $backendUrl;
+
+    /**
      * Constructor.
      *
      * @param Config                    $resourceConfig
@@ -79,6 +85,7 @@ class Credential
      * @param Json                      $json
      * @param SourceRepositoryInterface $sourceRepository
      * @param Data                      $helperData
+     * @param UrlInterface              $backendUrl
      */
     public function __construct(
         Config $resourceConfig,
@@ -88,7 +95,8 @@ class Credential
         ClientFactory $httpClientFactory,
         Json $json,
         SourceRepositoryInterface $sourceRepository,
-        Data $helperData
+        Data $helperData,
+        UrlInterface $backendUrl
     ) {
         $this->resourceConfig = $resourceConfig;
         $this->encryptor = $encryptor;
@@ -98,6 +106,7 @@ class Credential
         $this->json = $json;
         $this->sourceRepository = $sourceRepository;
         $this->helperData = $helperData;
+        $this->backendUrl = $backendUrl;
     }
 
     /**
@@ -148,8 +157,12 @@ class Credential
         $uri = $url.'oauth2/token';
 
         $store = $this->storeManager->getStore('admin');
+        $adminStoreId = $store->getId();
+        
+        $this->storeManager->setCurrentStore($adminStoreId);
+
         $storeCode = '/'.$store->getCode().'/';
-        $redirectUrl = (string) $store->getUrl('o2ti_pagbank/sourceconfig/oauth', [
+        $redirectUrl = (string) $this->backendUrl->getUrl('o2ti_pagbank/sourceconfig/oauth', [
             'source_code'    => $sourceCode,
             'code_verifier' => $codeVerifier,
         ]);

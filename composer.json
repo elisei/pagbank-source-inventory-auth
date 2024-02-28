@@ -21,7 +21,7 @@
             "registration.php"
         ],
         "psr-4": {
-            "O2TI\\PagBankAndClearSales\\": ""
+            "O2TI\\PagBankSourceInventoryAuth\\": ""
         }
     },
     "require-dev": {

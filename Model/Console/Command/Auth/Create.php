@@ -65,10 +65,11 @@ class Create extends AbstractModel
      * @param string $code
      * @param string $codeVerifier
      * @param string $sourceCode
+     * @param string $key
      *
      * @return int
      */
-    public function createNewData($code, $codeVerifier, $sourceCode)
+    public function createNewData($code, $codeVerifier, $sourceCode, $key)
     {
         
         $this->writeln(__('Criando dados do PagBank'));
@@ -82,7 +83,8 @@ class Create extends AbstractModel
             0,
             $code,
             $codeVerifier,
-            $sourceCode
+            $sourceCode,
+            $key
         );
         $oAuthResponse = $this->json->unserialize($oAuthResponse);
 

@@ -16,7 +16,6 @@ use Magento\Framework\App\Helper\AbstractHelper;
 use Magento\Framework\App\Request\Http;
 use Magento\Framework\Math\Random;
 use PagBank\PaymentMagento\Gateway\Config\Config;
-use O2TI\PagBankSourceInventoryAuth\Logger\Logger;
 
 class Data extends AbstractHelper
 {
@@ -24,11 +23,6 @@ class Data extends AbstractHelper
      * @var ScopeConfigInterface
      */
     protected $scopeConfig;
-
-    /**
-     * @var Logger
-     */
-    protected $logger;
 
     /**
      * @var Http
@@ -57,7 +51,6 @@ class Data extends AbstractHelper
 
     /**
      * @param ScopeConfigInterface  $scopeConfig
-     * @param Logger                $logger
      * @param Http                  $request
      * @param UrlInterface          $backendUrl
      * @param Config                $config
@@ -65,14 +58,12 @@ class Data extends AbstractHelper
      */
     public function __construct(
         ScopeConfigInterface $scopeConfig,
-        Logger $logger,
         Http $request,
         UrlInterface $backendUrl,
         Config $config,
         Random $mathRandom
     ) {
         $this->scopeConfig = $scopeConfig;
-        $this->logger = $logger;
         $this->request = $request;
         $this->backendUrl = $backendUrl;
         $this->config = $config;

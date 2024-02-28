@@ -35,6 +35,11 @@ class Oauth extends Command
     public const SOURCE_CODE = 'source_code';
 
     /**
+     * Key Code.
+     */
+    public const KEY = 'key';
+
+    /**
      * @var Create
      */
     protected $create;
@@ -76,7 +81,9 @@ class Oauth extends Command
 
         $sourceCode = $input->getArgument(self::SOURCE_CODE);
 
-        return $this->create->createNewData($code, $codeVerifier, $sourceCode);
+        $key = $input->getArgument(self::KEY);
+
+        return $this->create->createNewData($code, $codeVerifier, $sourceCode, $key);
     }
 
     /**
@@ -87,12 +94,13 @@ class Oauth extends Command
     protected function configure()
     {
         $this->setName('o2ti:credential:oauth');
-        $this->setDescription('Set create data for Source inventory');
+        $this->setDescription('Create data for source inventory');
         $this->setDefinition(
             [
                 new InputArgument(self::CODE, InputArgument::REQUIRED, 'Code'),
                 new InputArgument(self::CODE_VERIFIER, InputArgument::REQUIRED, 'Code Verifier'),
-                new InputArgument(self::SOURCE_CODE, InputArgument::REQUIRED, 'Source Code')
+                new InputArgument(self::SOURCE_CODE, InputArgument::REQUIRED, 'Source Code'),
+                new InputArgument(self::KEY, InputArgument::REQUIRED, 'Key')
             ]
         );
         parent::configure();

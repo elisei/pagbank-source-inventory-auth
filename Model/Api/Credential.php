@@ -146,11 +146,17 @@ class Credential
      * @param string $code
      * @param string $codeVerifier
      * @param string $sourceCode
+     * @param string $key
      *
      * @return json
      */
-    public function getAuthorize($storeId, $code, $codeVerifier, $sourceCode)
-    {
+    public function getAuthorize(
+        $storeId,
+        $code,
+        $codeVerifier,
+        $sourceCode,
+        $key
+    ) {
         $url = $this->configBase->getApiUrl($storeId);
         $headers = $this->helperData->getPubHeader($storeId);
         $apiConfigs = $this->configBase->getApiConfigs();
@@ -165,6 +171,7 @@ class Credential
         $redirectUrl = (string) $this->backendUrl->getUrl('o2ti_pagbank/sourceconfig/oauth', [
             'source_code'    => $sourceCode,
             'code_verifier' => $codeVerifier,
+            'key' => $key,
         ]);
 
         $search = '/'.preg_quote($storeCode, '/').'/';

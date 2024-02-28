@@ -142,11 +142,11 @@ class Credential
     /**
      * Get Authorize.
      *
-     * @param int    $storeId
-     * @param string $code
-     * @param string $codeVerifier
-     * @param string $sourceCode
-     * @param string $key
+     * @param int           $storeId
+     * @param string        $code
+     * @param string        $codeVerifier
+     * @param string        $sourceCode
+     * @param string|null   $key
      *
      * @return json
      */
@@ -155,7 +155,7 @@ class Credential
         $code,
         $codeVerifier,
         $sourceCode,
-        $key
+        $key = null
     ) {
         $url = $this->configBase->getApiUrl($storeId);
         $headers = $this->helperData->getPubHeader($storeId);
@@ -168,11 +168,17 @@ class Credential
         $this->storeManager->setCurrentStore($adminStoreId);
 
         $storeCode = '/'.$store->getCode().'/';
-        $redirectUrl = (string) $this->backendUrl->getUrl('o2ti_pagbank/sourceconfig/oauth', [
+        
+        $params = [
             'source_code'    => $sourceCode,
-            'code_verifier' => $codeVerifier,
-            'key' => $key,
-        ]);
+            'code_verifier' => $codeVerifier
+        ];
+
+        if ($key) {
+            $params = array_merge($params, ['key' => $key]);
+        }
+
+        $redirectUrl = (string) $this->backendUrl->getUrl('o2ti_pagbank/sourceconfig/oauth', $params);
 
         $search = '/'.preg_quote($storeCode, '/').'/';
         $redirectUrl = preg_replace($search, '/', $redirectUrl, 0);

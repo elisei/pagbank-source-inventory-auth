@@ -20,10 +20,14 @@
         </arguments>
     </type>
 
-    <type name="YO2TI\PagBankSourceInventoryAuth\Model\Api">
+    <type name="O2TI\PagBankSourceInventoryAuth\Model\Api">
         <arguments>
             <argument name="backendUrl" xsi:type="object">\Magento\Backend\Model\UrlInterface</argument>
         </arguments>
+    </type>
+
+    <type name="PagBank\PaymentMagento\Gateway\Http\TransferFactory">
+        <plugin name="modify_transfer_factory" type="O2TI\PagBankSourceInventoryAuth\Plugin\PagBank\Gateway\Http\ModifyTransferFactory" sortOrder="10"/>
     </type>
     
     <!-- 
@@ -47,5 +51,86 @@
     <type name="Magento\InventoryAdminUi\Ui\DataProvider\SourceDataProvider">
         <plugin name="display_attribute" type="O2TI\PagBankSourceInventoryAuth\Plugin\InventorySource\PagBankAttribute" sortOrder="100"/>
     </type>
+
+    <!-- Boleto - Order Request -->
+    <virtualType name="PagBankBoletoOrderRequest" type="Magento\Payment\Gateway\Request\BuilderComposite">
+        <arguments>
+            <argument name="builders" xsi:type="array">
+                <item name="sellerSourceInventory" xsi:type="string">O2TI\PagBankSourceInventoryAuth\Gateway\Request\SellerMetadataRequest</item>
+            </argument>
+        </arguments>
+    </virtualType>
+
+    <!-- Pix - Order Request -->
+    <virtualType name="PagBankPixOrderRequest" type="Magento\Payment\Gateway\Request\BuilderComposite">
+        <arguments>
+            <argument name="builders" xsi:type="array">
+                <item name="sellerSourceInventory" xsi:type="string">O2TI\PagBankSourceInventoryAuth\Gateway\Request\SellerMetadataRequest</item>
+            </argument>
+        </arguments>
+    </virtualType>
+
+    <!-- DeepLink - Order Request -->
+    <virtualType name="PagBankDeepLinkOrderRequest" type="Magento\Payment\Gateway\Request\BuilderComposite">
+        <arguments>
+            <argument name="builders" xsi:type="array">
+                <item name="sellerSourceInventory" xsi:type="string">O2TI\PagBankSourceInventoryAuth\Gateway\Request\SellerMetadataRequest</item>
+            </argument>
+        </arguments>
+    </virtualType>
+
+    <!-- Cc - Request -->
+    <virtualType name="PagBankCcAuthorizationRequest" type="Magento\Payment\Gateway\Request\BuilderComposite">
+        <arguments>
+            <argument name="builders" xsi:type="array">
+                <item name="sellerSourceInventory" xsi:type="string">O2TI\PagBankSourceInventoryAuth\Gateway\Request\SellerMetadataRequest</item>
+            </argument>
+        </arguments>
+    </virtualType>
+
+    <!-- Vault - Request -->
+    <virtualType name="PagBankCcVaultRequest" type="Magento\Payment\Gateway\Request\BuilderComposite">
+        <arguments>
+            <argument name="builders" xsi:type="array">
+                <item name="sellerSourceInventory" xsi:type="string">O2TI\PagBankSourceInventoryAuth\Gateway\Request\SellerMetadataRequest</item>
+            </argument>
+        </arguments>
+    </virtualType>
+
+    <!-- Base - Fetch - Info Request -->
+    <virtualType name="PagBankBaseFetchRequest" type="Magento\Payment\Gateway\Request\BuilderComposite">
+        <arguments>
+            <argument name="builders" xsi:type="array">
+                <item name="sellerSourceInventory" xsi:type="string">O2TI\PagBankSourceInventoryAuth\Gateway\Request\SellerMetadataRequest</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    
+    <!-- Base - Refund - Transaction Info Request -->
+    <virtualType name="PagBankRefundRequest" type="Magento\Payment\Gateway\Request\BuilderComposite">
+        <arguments>
+            <argument name="builders" xsi:type="array">
+                <item name="sellerSourceInventory" xsi:type="string">O2TI\PagBankSourceInventoryAuth\Gateway\Request\SellerMetadataRequest</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    
+    <!-- Base - Accept Payment Request -->
+    <virtualType name="PagBankAcceptPaymentRequest" type="Magento\Payment\Gateway\Request\BuilderComposite">
+        <arguments>
+            <argument name="builders" xsi:type="array">
+                <item name="sellerSourceInventory" xsi:type="string">O2TI\PagBankSourceInventoryAuth\Gateway\Request\SellerMetadataRequest</item>
+            </argument>
+        </arguments>
+    </virtualType>
+
+    <!-- Base - Deny Payment Request -->
+    <virtualType name="PagBankDenyPaymentRequest" type="Magento\Payment\Gateway\Request\BuilderComposite">
+        <arguments>
+            <argument name="builders" xsi:type="array">
+                <item name="sellerSourceInventory" xsi:type="string">O2TI\PagBankSourceInventoryAuth\Gateway\Request\SellerMetadataRequest</item>
+            </argument>
+        </arguments>
+    </virtualType>
 
 </config>

@@ -15,6 +15,7 @@ use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Framework\App\Helper\AbstractHelper;
 use Magento\Framework\App\Request\Http;
 use Magento\Framework\Math\Random;
+use Magento\InventoryApi\Api\SourceRepositoryInterface;
 use PagBank\PaymentMagento\Gateway\Config\Config;
 
 class Data extends AbstractHelper
@@ -50,24 +51,32 @@ class Data extends AbstractHelper
     protected $codeVerifier;
 
     /**
-     * @param ScopeConfigInterface  $scopeConfig
-     * @param Http                  $request
-     * @param UrlInterface          $backendUrl
-     * @param Config                $config
-     * @param Random                $mathRandom
+     * @var SourceRepositoryInterface
+     */
+    protected $sourceRepository;
+
+    /**
+     * @param ScopeConfigInterface      $scopeConfig
+     * @param Http                      $request
+     * @param UrlInterface              $backendUrl
+     * @param Config                    $config
+     * @param Random                    $mathRandom
+     * @param SourceRepositoryInterface $sourceRepository
      */
     public function __construct(
         ScopeConfigInterface $scopeConfig,
         Http $request,
         UrlInterface $backendUrl,
         Config $config,
-        Random $mathRandom
+        Random $mathRandom,
+        SourceRepositoryInterface $sourceRepository
     ) {
         $this->scopeConfig = $scopeConfig;
         $this->request = $request;
         $this->backendUrl = $backendUrl;
         $this->config = $config;
         $this->mathRandom = $mathRandom;
+        $this->sourceRepository = $sourceRepository;
     }
 
     /**
@@ -219,5 +228,18 @@ class Data extends AbstractHelper
     public function getBase64UrlEncode($code)
     {
         return rtrim(strtr(base64_encode($code), '+/', '-_'), '=');
+    }
+
+    /**
+     * Get oAuth By Source Code.
+     *
+     * @param string $sourceCode
+     *
+     * @return string|null
+     */
+    public function getOauthBySourceCode($sourceCode)
+    {
+        $source = $this->sourceRepository->get($sourceCode);
+        return $source->getOauth();
     }
 }

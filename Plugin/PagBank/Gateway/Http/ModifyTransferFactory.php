@@ -49,7 +49,7 @@ class ModifyTransferFactory
 
     /**
      * Around Create, change auth.
-     * 
+     *
      * @param TransferFactory $subject
      * @param \Closure $proceed
      * @param array $request

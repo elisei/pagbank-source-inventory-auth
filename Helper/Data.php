@@ -240,6 +240,7 @@ class Data extends AbstractHelper
     public function getOauthBySourceCode($sourceCode)
     {
         $source = $this->sourceRepository->get($sourceCode);
+
         return $source->getOauth();
     }
 }

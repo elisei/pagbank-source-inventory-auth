@@ -18,15 +18,27 @@ use Magento\InventoryApi\Api\Data\SourceExtensionInterfaceFactory;
 
 class AddExtensionAttributes
 {
+    /**
+     * @var SourceExtensionInterfaceFactory
+     */
     protected $extensionFactory;
-    
-    protected $sourceFactory;
 
+    /**
+     * @param SourceExtensionInterfaceFactory $extensionFactory
+     */
     public function __construct(SourceExtensionInterfaceFactory $extensionFactory)
     {
         $this->extensionFactory = $extensionFactory;
     }
 
+    /**
+     * Before save.
+     *
+     * @param SourceRepositoryInterface $subject
+     * @param SourceInterface           $source
+     *
+     * @return array
+     */
     public function beforeSave(
         SourceRepositoryInterface $subject,
         SourceInterface $source
@@ -37,22 +49,22 @@ class AddExtensionAttributes
         $refreshOauth = $extensionAttributes->getRefreshOauth();
         $publicKey = $extensionAttributes->getPublicKey();
 
-        $oAuthSandbox = $extensionAttributes->getOauthSandbox();
-        $refreshOauthSandbox = $extensionAttributes->getRefreshOauthSandbox();
-        $publicKeySandbox = $extensionAttributes->getPublicKeySandbox();
-
         $source->setOauth($oAuth);
         $source->setRefreshOauth($refreshOauth);
         $source->setPublicKey($publicKey);
-
-        $source->setOauthSandbox($oAuthSandbox);
-        $source->setRefreshOauthSandbox($refreshOauthSandbox);
-        $source->setPublicKeySandbox($publicKeySandbox);
 
         $source->save();
         return [$source];
     }
 
+    /**
+     * After save.
+     *
+     * @param SourceRepositoryInterface $subject
+     * @param SourceInterface           $source
+     *
+     * @return SourceInterface
+     */
     public function afterGet(
         SourceRepositoryInterface $subject,
         SourceInterface $source
@@ -73,6 +85,14 @@ class AddExtensionAttributes
         return $source;
     }
 
+    /**
+     * After Get List.
+     *
+     * @param SourceRepositoryInterface     $subject
+     * @param SourceSearchResultsInterface  $result
+     *
+     * @return SourceSearchResultsInterface
+     */
     public function afterGetList(
         SourceRepositoryInterface $subject,
         SourceSearchResultsInterface $result

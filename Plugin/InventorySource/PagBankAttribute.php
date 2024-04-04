@@ -31,6 +31,14 @@ class PagBankAttribute
         $this->helperData = $helperData;
     }
 
+    /**
+     * After Get Data.
+     *
+     * @param SourceDataProvider    $subject
+     * @param array                 $result
+     *
+     * @return array
+     */
     public function afterGetData(
         SourceDataProvider $subject,
         array              $result

@@ -2,7 +2,7 @@
     "name": "o2ti/pagbank-source-inventory-auth",
     "description": "Captura o oAuth na sessão de Source Inventory",
     "require": {
-        "php": "~7.4.0||~8.1.0||~8.2.0",
+        "php": "~7.4.0||~8.1.0||~8.2.0||~8.3.0",
         "pagbank/payment-magento": "*"
     },
     "type": "magento2-module",

@@ -15,6 +15,7 @@ use Magento\Framework\Serialize\Serializer\Json;
 use Magento\Store\Model\StoreManagerInterface;
 use O2TI\PagBankSourceInventoryAuth\Model\Api\Credential;
 use O2TI\PagBankSourceInventoryAuth\Model\Console\Command\AbstractModel;
+use Symfony\Component\Console\Command\Command;
 
 /**
  * Class Create - Manually apply.
@@ -87,6 +88,7 @@ class Create extends AbstractModel
             $key
         );
         $oAuthResponse = $this->json->unserialize($oAuthResponse);
+        $result = Command::SUCCESS;
 
         if (!isset($oAuthResponse['error_messages'])
             && isset($oAuthResponse['access_token'])
@@ -123,6 +125,10 @@ class Create extends AbstractModel
             }
         }
 
+        if (!isset($oAuthResponse['access_token'])) {
+            $result = Command::FAILURE;
+        }
+
         if (isset($oAuthResponse['error_messages'])) {
             foreach ($oAuthResponse['error_messages'] as $error) {
                 $this->writeln('<error>'.
@@ -133,8 +139,9 @@ class Create extends AbstractModel
                         $error['parameter_name']
                     ) .'</error>');
             }
+            $result = Command::FAILURE;
         }
 
-        return 1;
+        return $result;
     }
 }

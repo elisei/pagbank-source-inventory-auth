@@ -90,6 +90,8 @@ class ModifyTransferFactory
      */
     public function getModifiedHeaders($originalHeader, $sourceCode)
     {
+        $oAuth = null;
+
         foreach ($sourceCode as $code) {
             $oAuth = $this->helper->getOauthBySourceCode($code);
         }

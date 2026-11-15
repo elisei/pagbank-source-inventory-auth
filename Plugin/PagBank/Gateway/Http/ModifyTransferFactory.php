@@ -61,8 +61,13 @@ class ModifyTransferFactory
     ) {
         $result = $proceed($request);
 
+        $sourceCode = $request[MetadataRequest::METADATA][0]['source_code'] ?? [];
+
+        if (empty($sourceCode)) {
+            return $result;
+        }
+
         $storeId = $request[MetadataRequest::METADATA][0][MetadataRequest::STORE_ID];
-        $sourceCode = $request[MetadataRequest::METADATA][0]['source_code'];
 
         $uri = $result->getUri();
         $body = $result->getBody();
@@ -93,7 +98,11 @@ class ModifyTransferFactory
         $oAuth = null;
 
         foreach ($sourceCode as $code) {
-            $oAuth = $this->helper->getOauthBySourceCode($code);
+            $sourceOAuth = $this->helper->getOauthBySourceCode($code);
+
+            if ($sourceOAuth) {
+                $oAuth = $sourceOAuth;
+            }
         }
 
         if ($oAuth) {
